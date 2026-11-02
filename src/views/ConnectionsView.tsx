@@ -20,7 +20,7 @@ const READINESS: Array<{ item: string; state: Ready; note: string }> = [
   { item: 'GitHub Pages deployment (demo data)', state: 'done', note: 'Public static shell; deployed by a manually triggered workflow.' },
   { item: 'Read-only Worker + Access login (code)', state: 'done', note: 'worker/ in the repo; tested with synthetic data.' },
   { item: 'Row-mapping check against the live Sheet', state: 'done', note: 'Headers, date formats and status wording checked 2 Nov 2026.' },
-  { item: 'Cloudflare + Google accounts set up', state: 'pending', note: 'Josh follows docs/LIVE_DATA_SETUP.md.' },
+  { item: 'Private live dashboard behind Access login', state: 'done', note: 'Live since 2 Nov 2026; read-only service account.' },
   { item: 'Audited approval / write workflow', state: 'blocked', note: 'Separate proposal; not authorised.' },
 ];
 const READY_META: Record<Ready, { glyph: string; color: string; label: string }> = {
