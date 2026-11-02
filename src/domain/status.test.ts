@@ -10,6 +10,8 @@ describe('classifyStatus', () => {
     ['Blocked — source site requires sign-in', 'blocked'],
     ['Processing error — file not found', 'failed'],
     ['Awaiting Josh approval', 'needs-josh'],
+    ['Awaiting Joshua', 'needs-josh'],
+    ['Joshua to decide', 'needs-josh'],
     ['Sent', 'waiting'],
   ] as const)('%s → %s', (raw, category) => {
     expect(classifyStatus(raw).category).toBe(category);

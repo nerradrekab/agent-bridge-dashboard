@@ -13,7 +13,7 @@ import type {
 } from './types';
 import { classifyStatus, isOpen } from './status';
 
-export const HUMAN_ALIASES = ['josh'];
+export const HUMAN_ALIASES = ['josh', 'joshua'];
 
 export function tsMillis(t: SourceTimestamp | null | undefined): number | null {
   if (!t?.iso) return null;
@@ -49,7 +49,7 @@ export function needsJosh(task: BridgeTask): boolean {
   const next = task.nextAction ?? '';
   return (
     mentionsJosh(task.owner) ||
-    /\bjosh\s+(to|must|should|needs? to)\b|\b(awaiting|needs?|for)\s+josh\b|\bjosh'?s (approval|decision|sign[- ]?off)\b/i.test(next)
+    /\bjosh(?:ua)?\s+(to|must|should|needs? to)\b|\b(awaiting|needs?|for)\s+josh(?:ua)?\b|\bjosh(?:ua)?'?s (approval|decision|sign[- ]?off)\b/i.test(next)
   );
 }
 

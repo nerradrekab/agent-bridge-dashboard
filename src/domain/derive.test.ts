@@ -73,12 +73,13 @@ describe('mentionsAgent', () => {
     expect(mentionsAgent('', instinct)).toBe(false);
   });
 
-  // Decision: "Joshua" is a different word and does not count as Josh.
-  // If the live Sheet uses "Joshua", add it to HUMAN_ALIASES explicitly.
-  it('does not treat "Joshua" as Josh', () => {
-    expect(mentionsJosh('Joshua')).toBe(false);
+  // Josh and Joshua are the same person; other words starting "josh" are not.
+  it('treats "Joshua" and "Josh" as the same person', () => {
+    expect(mentionsJosh('Joshua')).toBe(true);
     expect(mentionsJosh('Josh')).toBe(true);
     expect(mentionsJosh("Josh's call")).toBe(true);
+    expect(mentionsJosh('Joshuas')).toBe(false);
+    expect(mentionsJosh('Joshing')).toBe(false);
   });
 });
 
@@ -93,6 +94,9 @@ describe('needsJosh', () => {
     expect(needsJosh(task({ nextAction: 'Josh to pick a host' }))).toBe(true);
     expect(needsJosh(task({ nextAction: 'Waiting for Josh’s decision' }))).toBe(true);
     expect(needsJosh(task({ nextAction: 'Awaiting Josh' }))).toBe(true);
+    expect(needsJosh(task({ nextAction: 'Joshua to pick a host' }))).toBe(true);
+    expect(needsJosh(task({ nextAction: 'Awaiting Joshua’s sign-off' }))).toBe(true);
+    expect(needsJosh(task({ owner: 'Joshua', status: 'In progress' }))).toBe(true);
   });
   it('is false for closed tasks even if Josh owns them', () => {
     expect(needsJosh(task({ owner: 'Josh', status: 'Done' }))).toBe(false);

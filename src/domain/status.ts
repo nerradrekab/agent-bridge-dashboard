@@ -42,7 +42,7 @@ const RULES: Rule[] = [
   {
     category: 'needs-josh',
     pattern:
-      /\b((awaiting|needs?|pending|for|requires?)\s+(josh|approval|sign[- ]?off|decision))\b|\bjosh\s+(to|must|should)\b|\bapproval required\b/,
+      /\b((awaiting|needs?|pending|for|requires?)\s+(josh(?:ua)?|approval|sign[- ]?off|decision))\b|\bjosh(?:ua)?\s+(to|must|should)\b|\bapproval required\b/,
   },
   { category: 'archived', pattern: /\b(historical|superseded|retired|cancell?ed|withdrawn|obsolete|archived)\b/ },
   { category: 'paused', pattern: /\b(paused|on hold|deferred|suspended|parked)\b/ },

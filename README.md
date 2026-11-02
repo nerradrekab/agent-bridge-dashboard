@@ -5,6 +5,8 @@ A **read-only** monitoring console for the ChatGPT ↔ Instinct AI Agent Bridge.
 It is not a chatbot, not a task tracker and not a replacement for the bridge Google Sheet. The Sheet stays authoritative.
 
 > **Phase 1 status:** runs entirely on **fictional demo data**. No live bridge records, credentials or Sheet identifiers are in this repository or its build output.
+>
+> **Live demo:** https://nerradrekab.github.io/agent-bridge-dashboard/
 
 ## Quick start
 
@@ -117,9 +119,17 @@ No UI change is needed. The API returns another `AgentInventory` (`agentId`, `di
 | All seven views, filters, drawers, loading/empty/error/stale states | Every record shown: fictional fixtures in `src/data/mock/fixtures.ts` |
 | Status classification, evidence rules, delivery diagnosis | The proxy API: contract only, in `docs/API_CONTRACT.md` |
 | HTTP adapter (tested against mocked `fetch`) | Authentication: expected from the proxy (e.g. Cloudflare Access) |
-| GitHub Pages workflow (manual trigger only) | Pages is **not enabled**; nothing is deployed |
+| Public GitHub Pages site serving the demo build | Nothing live is deployed; the public site only ever shows fictional data |
 | Unit and UI tests, secret/Sheet-ID scan | Any connection to the live Sheet, Apps Script or Gmail signals |
 
-## Deployment (when approved)
+## Deployment
 
-`.github/workflows/pages.yml` runs `npm ci` → `npm run check` → builds with `VITE_BASE_PATH=/<repo>/` and `VITE_DATA_SOURCE=mock` → scans `dist/` → deploys. It is **manual-only** (`workflow_dispatch`), and the deploy step fails until Pages is enabled under *Settings → Pages → Source: GitHub Actions*. On a free plan, Pages requires a public repository. A private repo needs a paid plan.
+The repository is public and GitHub Pages is enabled with *Source: GitHub Actions*. `.github/workflows/pages.yml` runs `npm ci` → `npm run check` → builds with `VITE_BASE_PATH=/<repo>/` and `VITE_DATA_SOURCE=mock` → scans `dist/` → deploys.
+
+Deploys are **manual** (`workflow_dispatch`):
+
+```bash
+gh workflow run pages.yml
+```
+
+To deploy on every push to `main` instead, add a `push: { branches: [main] }` trigger to the workflow. The public build always uses the mock adapter. Never point a public bundle at a live API that isn't behind access control.
