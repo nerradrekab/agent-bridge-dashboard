@@ -17,7 +17,7 @@ type Ready = 'done' | 'pending' | 'blocked';
 const READINESS: Array<{ item: string; state: Ready; note: string }> = [
   { item: 'Static frontend with mock adapter', state: 'done', note: 'This app.' },
   { item: 'Typed HTTP adapter and API contract', state: 'done', note: 'docs/API_CONTRACT.md' },
-  { item: 'GitHub Pages workflow', state: 'pending', note: 'Present, manual trigger only. Pages not enabled.' },
+  { item: 'GitHub Pages deployment (demo data)', state: 'done', note: 'Public static shell; deployed by a manually triggered workflow.' },
   { item: 'Authenticated read-only proxy (e.g. Worker + Access)', state: 'pending', note: 'Phase 2 proposal; not built.' },
   { item: 'Read-only Sheet access for the proxy', state: 'blocked', note: 'Needs Josh’s explicit approval.' },
   { item: 'Row-mapping verification against the live Sheet', state: 'blocked', note: 'After proxy access is approved.' },
@@ -113,7 +113,7 @@ export function ConnectionsView() {
               <span className="font-mono">{import.meta.env.BASE_URL}</span>
             </Row>
             <Row k="Routing">Hash routes (#/tasks) so static hosting never 404s on refresh.</Row>
-            <Row k="Hosting">GitHub Pages workflow present but manual-only; Pages is not enabled.</Row>
+            <Row k="Hosting">GitHub Pages (public static shell, demo data only). Deploys run when triggered by hand.</Row>
           </dl>
         </Section>
 
