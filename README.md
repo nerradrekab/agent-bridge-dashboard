@@ -7,6 +7,19 @@ It is not a chatbot, not a task tracker and not a replacement for the bridge Goo
 > **Phase 1 status:** runs entirely on **fictional demo data**. No live bridge records, credentials or Sheet identifiers are in this repository or its build output.
 >
 > **Live demo:** https://nerradrekab.github.io/agent-bridge-dashboard/
+>
+> **Real data:** a private copy runs on a Cloudflare Worker behind a Cloudflare Access login (`worker/`). Setup steps for beginners are in [docs/LIVE_DATA_SETUP.md](docs/LIVE_DATA_SETUP.md).
+
+## Live data (private)
+
+`worker/` is a Cloudflare Worker that serves a live-data build of this same app (`npm run build:private`, configured by `.env.private`) and implements the read-only API in `docs/API_CONTRACT.md`.
+
+- It reads the Sheet with a **read-only** Google service account. Columns are matched by header name, and a changed layout fails closed with "Source unavailable".
+- It checks the Cloudflare Access login on every API call. It refuses all requests until the Access settings exist.
+- All configuration lives in **Worker secrets**: Sheet ID, key, Access settings and allowed email. None of it is in this repo.
+- Worker tests use synthetic rows only (`worker/test/`).
+
+Deploy with `npm run worker:deploy` once Wrangler is logged in.
 
 ## Quick start
 
