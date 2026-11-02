@@ -1,0 +1,159 @@
+@import 'tailwindcss';
+@import '@fontsource/ibm-plex-sans/400.css';
+@import '@fontsource/ibm-plex-sans/500.css';
+@import '@fontsource/ibm-plex-sans/600.css';
+@import '@fontsource/ibm-plex-mono/400.css';
+@import '@fontsource/ibm-plex-mono/500.css';
+
+@custom-variant dark (&:where([data-theme='dark'], [data-theme='dark'] *));
+
+/* Design tokens. Dark is the default; [data-theme='light'] overrides. */
+:root {
+  --bg: #0b0e13;
+  --surface: #11161d;
+  --surface-2: #161c25;
+  --surface-3: #1d2530;
+  --border: #232c38;
+  --border-strong: #334050;
+  --text: #e4e8ee;
+  --muted: #8d97a6;
+  --faint: #5d6877;
+  --accent: #6cb6ff;
+  --focus: #6cb6ff;
+
+  --st-done: #3fb950;
+  --st-active: #58a6ff;
+  --st-waiting: #9aa5b4;
+  --st-proposed: #b8a3e3;
+  --st-paused: #8b96a5;
+  --st-archived: #636d7a;
+  --st-blocked: #f0883e;
+  --st-failed: #ff6b62;
+  --st-josh: #e3b341;
+  --st-unclassified: #c9d1d9;
+
+  --ag-chatgpt: #5eb3a0;
+  --ag-instinct: #d0a85c;
+  --ag-josh: #a78bfa;
+  --ag-other: #8d97a6;
+
+  --demo: #e3b341;
+  color-scheme: dark;
+}
+
+:root[data-theme='light'] {
+  --bg: #f6f7f9;
+  --surface: #ffffff;
+  --surface-2: #f1f3f6;
+  --surface-3: #e7eaef;
+  --border: #dde1e7;
+  --border-strong: #c3c9d2;
+  --text: #161b22;
+  --muted: #57606a;
+  --faint: #8c959f;
+  --accent: #0969da;
+  --focus: #0969da;
+
+  --st-done: #1a7f37;
+  --st-active: #0969da;
+  --st-waiting: #57606a;
+  --st-proposed: #6f42c1;
+  --st-paused: #6e7781;
+  --st-archived: #8c959f;
+  --st-blocked: #bc4c00;
+  --st-failed: #cf222e;
+  --st-josh: #9a6700;
+  --st-unclassified: #424a53;
+
+  --ag-chatgpt: #1f7a66;
+  --ag-instinct: #8a6116;
+  --ag-josh: #6f42c1;
+  --ag-other: #57606a;
+
+  --demo: #9a6700;
+  color-scheme: light;
+}
+
+@theme inline {
+  --font-sans: 'IBM Plex Sans', ui-sans-serif, system-ui, sans-serif;
+  --font-mono: 'IBM Plex Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
+
+  --color-bg: var(--bg);
+  --color-surface: var(--surface);
+  --color-surface-2: var(--surface-2);
+  --color-surface-3: var(--surface-3);
+  --color-line: var(--border);
+  --color-line-strong: var(--border-strong);
+  --color-fg: var(--text);
+  --color-muted: var(--muted);
+  --color-faint: var(--faint);
+  --color-accent: var(--accent);
+  --color-demo: var(--demo);
+}
+
+html,
+body,
+#root {
+  height: 100%;
+}
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-sans);
+  font-size: 14px;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  font-feature-settings: 'tnum' 1;
+}
+
+:focus-visible {
+  outline: 2px solid var(--focus);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+.tabular {
+  font-variant-numeric: tabular-nums;
+}
+
+/* Compact data tables */
+.data-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+}
+.data-table th {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  background: var(--surface-2);
+  color: var(--muted);
+  font-weight: 500;
+  font-size: 12px;
+  text-align: left;
+  padding: 8px 12px;
+  border-bottom: 1px solid var(--border);
+  white-space: nowrap;
+}
+.data-table td {
+  padding: 8px 12px;
+  border-bottom: 1px solid var(--border);
+  vertical-align: top;
+}
+.data-table tbody tr {
+  cursor: pointer;
+}
+.data-table tbody tr:hover td {
+  background: var(--surface-2);
+}
+.data-table tbody tr:focus-visible {
+  outline-offset: -2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    transition: none !important;
+    animation: none !important;
+  }
+}
