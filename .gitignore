@@ -1,0 +1,13 @@
+node_modules
+dist
+*.local
+.env
+.env.*
+!.env.example
+coverage
+.DS_Store
+*.log
+# Never commit exports of the operational Sheet
+*.csv
+*.xlsx
+private/
