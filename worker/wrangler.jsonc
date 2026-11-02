@@ -1,0 +1,26 @@
+// Cloudflare Worker: private Agent Bridge dashboard + read-only API.
+//
+// All settings are Worker SECRETS, set with `npx wrangler secret put NAME
+// --config worker/wrangler.jsonc`, never stored here (this repo is public):
+//   SHEET_ID                      the bridge Sheet's ID
+//   GOOGLE_SERVICE_ACCOUNT_JSON   the read-only service account key file
+//   ACCESS_TEAM_DOMAIN            https://<team>.cloudflareaccess.com
+//   ACCESS_AUD                    the Access application's Audience tag
+//   ALLOWED_EMAILS                optional comma-separated allow-list
+// Until ACCESS_TEAM_DOMAIN and ACCESS_AUD are set, the API refuses every request.
+{
+  "$schema": "../node_modules/wrangler/config-schema.json",
+  "name": "agent-bridge",
+  "main": "src/index.ts",
+  "compatibility_date": "2026-10-01",
+  "workers_dev": true,
+  "preview_urls": false,
+  "assets": {
+    // Built by `npm run build:private` (live-data build of the dashboard).
+    "directory": "../dist-private",
+    "binding": "ASSETS",
+    "not_found_handling": "single-page-application",
+    "run_worker_first": ["/api/*"]
+  },
+  "observability": { "enabled": false }
+}
