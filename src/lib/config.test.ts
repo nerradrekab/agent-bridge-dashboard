@@ -16,6 +16,12 @@ describe('parseConfig', () => {
     expect(c.apiBaseUrl).toBe('https://api.example.com');
   });
 
+  it('resolves same-origin to the page origin at runtime', () => {
+    const c = parseConfig({ VITE_DATA_SOURCE: 'http', VITE_API_BASE_URL: 'same-origin' }, 'https://bridge.example.workers.dev');
+    expect(c.apiBaseUrl).toBe('https://bridge.example.workers.dev');
+    expect(parseConfig({ VITE_API_BASE_URL: 'same-origin' }).apiBaseUrl).toBeNull();
+  });
+
   it('falls back to mock for unknown sources', () => {
     expect(parseConfig({ VITE_DATA_SOURCE: 'sheets' }).dataSource).toBe('mock');
   });

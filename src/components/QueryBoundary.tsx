@@ -31,7 +31,7 @@ const ERROR_COPY: Record<ApiErrorKind, { title: string; body: string }> = {
   },
   network: {
     title: 'Network error',
-    body: 'Could not reach the bridge API.',
+    body: 'Could not reach the bridge API. If your login has expired, reload the page to sign in again.',
   },
 };
 

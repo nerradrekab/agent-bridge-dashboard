@@ -20,6 +20,13 @@ const fullFmt = new Intl.DateTimeFormat('en-GB', {
   timeZoneName: 'short',
 });
 
+const dateOnlyFmt = new Intl.DateTimeFormat('en-GB', { timeZone: 'Europe/Dublin', day: 'numeric', month: 'short', year: 'numeric' });
+
+/** For day-precision Sheet dates (stored as Dublin midnight): "2 Nov 2026", no time implied. */
+export function formatDateOnly(iso: string): string {
+  return dateOnlyFmt.format(new Date(iso));
+}
+
 /** e.g. "2 Nov, 22:30 GMT" — timezone always shown. */
 export function formatDateTime(iso: string): string {
   return dateTimeFmt.format(new Date(iso));

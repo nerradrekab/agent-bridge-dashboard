@@ -18,9 +18,9 @@ const READINESS: Array<{ item: string; state: Ready; note: string }> = [
   { item: 'Static frontend with mock adapter', state: 'done', note: 'This app.' },
   { item: 'Typed HTTP adapter and API contract', state: 'done', note: 'docs/API_CONTRACT.md' },
   { item: 'GitHub Pages deployment (demo data)', state: 'done', note: 'Public static shell; deployed by a manually triggered workflow.' },
-  { item: 'Authenticated read-only proxy (e.g. Worker + Access)', state: 'pending', note: 'Phase 2 proposal; not built.' },
-  { item: 'Read-only Sheet access for the proxy', state: 'blocked', note: 'Needs Josh’s explicit approval.' },
-  { item: 'Row-mapping verification against the live Sheet', state: 'blocked', note: 'After proxy access is approved.' },
+  { item: 'Read-only Worker + Access login (code)', state: 'done', note: 'worker/ in the repo; tested with synthetic data.' },
+  { item: 'Row-mapping check against the live Sheet', state: 'done', note: 'Headers, date formats and status wording checked 2 Nov 2026.' },
+  { item: 'Cloudflare + Google accounts set up', state: 'pending', note: 'Josh follows docs/LIVE_DATA_SETUP.md.' },
   { item: 'Audited approval / write workflow', state: 'blocked', note: 'Separate proposal; not authorised.' },
 ];
 const READY_META: Record<Ready, { glyph: string; color: string; label: string }> = {

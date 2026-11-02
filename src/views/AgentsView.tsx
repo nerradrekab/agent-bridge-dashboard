@@ -4,7 +4,7 @@ import { EvidenceTag } from '../components/EvidenceTag';
 import { messageHref } from '../components/LinkedText';
 import { QueryBoundary } from '../components/QueryBoundary';
 import { StatusBadge } from '../components/StatusBadge';
-import { IsoTime } from '../components/Timestamp';
+import { IsoTime, Timestamp } from '../components/Timestamp';
 import { PageHeader, SourceLabel } from '../components/ui';
 import { useAgents, useDeliveries, useMessages, useTasks } from '../data/hooks';
 import { agentActivity } from '../domain/derive';
@@ -116,6 +116,18 @@ function AgentCard({
                 <span className="break-words">{it.nextAction ?? <span className="text-faint">—</span>}</span>
                 <span className="text-muted">Addressed to</span>
                 <span>{it.addressedTo}</span>
+                {it.evidence !== undefined && (
+                  <>
+                    <span className="text-muted">Evidence</span>
+                    <span className="break-words">{it.evidence ?? <span className="text-faint">Not recorded</span>}</span>
+                  </>
+                )}
+                {it.reviewedAt !== undefined && (
+                  <>
+                    <span className="text-muted">Reviewed</span>
+                    <Timestamp value={it.reviewedAt} emptyLabel="Not recorded" />
+                  </>
+                )}
               </div>
               <div className="mt-1">
                 <SourceLabel source={it.source} />
@@ -147,7 +159,7 @@ export function AgentsView() {
                 {(ms) => (
                   <QueryBoundary query={deliveries} noBanner>
                     {(ds) => (
-                      <div className="grid gap-4 lg:grid-cols-2">
+                      <div className={`grid gap-4 lg:grid-cols-2 ${ag.length >= 3 ? '2xl:grid-cols-3' : ''}`}>
                         {ag.map((a) => (
                           <AgentCard key={a.agentId} agent={a} tasks={ts} messages={ms} deliveries={ds} />
                         ))}

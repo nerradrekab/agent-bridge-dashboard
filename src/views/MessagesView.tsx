@@ -22,7 +22,9 @@ function MessageTable({ messages, tasks, deliveries }: { messages: BridgeMessage
   const [from, setFrom] = useState('');
   const [to, setTo] = useState('');
   const [cat, setCat] = useState('');
+  const [showArchive, setShowArchive] = useState(false);
   const openId = params.get('msg');
+  const archivedCount = messages.filter((m) => m.archived).length;
 
   const setOpen = (id: string | null) =>
     setParams((p) => {
@@ -42,6 +44,7 @@ function MessageTable({ messages, tasks, deliveries }: { messages: BridgeMessage
     [messages],
   );
   const rows = sorted.filter((m) => {
+    if (m.archived && !showArchive && m.id !== openId) return false;
     if (from && m.from !== from) return false;
     if (to && m.to !== to) return false;
     if (cat && classifyStatus(m.status).category !== cat) return false;
@@ -64,6 +67,12 @@ function MessageTable({ messages, tasks, deliveries }: { messages: BridgeMessage
             onChange={setCat}
             options={CATEGORY_ORDER.map((c) => ({ value: c, label: CATEGORY_META[c].label }))}
           />
+          {archivedCount > 0 && (
+            <label className="flex h-8 items-center gap-2 text-[13px]">
+              <input type="checkbox" checked={showArchive} onChange={(e) => setShowArchive(e.target.checked)} />
+              Include archive ({archivedCount})
+            </label>
+          )}
         </FilterBar>
         <ResultCount shown={rows.length} total={messages.length} noun="messages" />
       </div>
@@ -89,6 +98,7 @@ function MessageTable({ messages, tasks, deliveries }: { messages: BridgeMessage
                 <tr key={m.id} data-testid="message-row" {...rowProps(() => setOpen(m.id), `Open message ${m.id}`)}>
                   <td>
                     <Mono>{m.id}</Mono>
+                    {m.archived && <div className="text-[11px] text-faint">archived</div>}
                   </td>
                   <td>
                     <Timestamp value={m.writtenAt} relative={false} />
@@ -117,7 +127,11 @@ function MessageTable({ messages, tasks, deliveries }: { messages: BridgeMessage
         open={!!selected}
         onOpenChange={(o) => !o && setOpen(null)}
         title={selected ? <span className="font-mono">{selected.id}</span> : ''}
-        subtitle="Messages record · append-only handoff · read-only"
+        subtitle={
+          selected?.archived
+            ? 'Messages archive · status frozen when archived · read-only'
+            : 'Messages record · append-only handoff · read-only'
+        }
       >
         {selected && (
           <dl>

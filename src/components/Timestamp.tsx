@@ -1,5 +1,5 @@
 import type { SourceTimestamp } from '../domain/types';
-import { formatDateTime, formatRelative } from '../lib/format';
+import { formatDateOnly, formatDateTime, formatRelative } from '../lib/format';
 import { useNow } from '../lib/now';
 
 interface Props {
@@ -26,6 +26,17 @@ export function Timestamp({ value, relative = true, emptyLabel = '—' }: Props)
         <span style={{ color: 'var(--st-josh)' }}>Unknown</span>
         <span className="text-muted">“{value.raw}”</span>
       </span>
+    );
+  }
+  if (value.precision === 'day') {
+    return (
+      <time
+        dateTime={value.iso.slice(0, 10)}
+        title={[`Date only; no time recorded`, value.raw ? `Source text: “${value.raw}”` : null].filter(Boolean).join('\n')}
+        className="tabular whitespace-nowrap"
+      >
+        {formatDateOnly(value.iso)}
+      </time>
     );
   }
   const title = [`UTC: ${value.iso}`, value.raw ? `Source text: “${value.raw}”` : null].filter(Boolean).join('\n');

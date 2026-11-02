@@ -13,6 +13,13 @@ describe('classifyStatus', () => {
     ['Awaiting Joshua', 'needs-josh'],
     ['Joshua to decide', 'needs-josh'],
     ['Sent', 'waiting'],
+    // Wording seen in the live bridge
+    ['Enabled; scheduled prompt includes Instinct and Claude', 'active'],
+    ['Disabled; past one-off', 'paused'],
+    ['Await scheduled check', 'waiting'],
+    ['Unprocessed', 'waiting'],
+    ['No action', 'done'],
+    ['Closed: no reply', 'done'],
   ] as const)('%s → %s', (raw, category) => {
     expect(classifyStatus(raw).category).toBe(category);
   });
