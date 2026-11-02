@@ -45,11 +45,12 @@ const RULES: Rule[] = [
       /\b((awaiting|needs?|pending|for|requires?)\s+(josh(?:ua)?|approval|sign[- ]?off|decision))\b|\bjosh(?:ua)?\s+(to|must|should)\b|\bapproval required\b/,
   },
   { category: 'archived', pattern: /\b(historical|superseded|retired|cancell?ed|withdrawn|obsolete|archived)\b/ },
-  { category: 'paused', pattern: /\b(paused|on hold|deferred|suspended|parked)\b/ },
-  { category: 'done', pattern: /\b(done|complete|completed|closed|delivered|resolved|processed|acknowledged)\b/ },
+  { category: 'paused', pattern: /\b(paused|on hold|deferred|suspended|parked|disabled)\b/ },
+  { category: 'done', pattern: /\b(done|complete|completed|closed|delivered|resolved|processed|acknowledged|no action)\b/ },
   { category: 'proposed', pattern: /\b(proposed|proposal|draft|suggested|unconfirmed|not (yet )?accepted)\b/ },
-  { category: 'active', pattern: /\b(in progress|active|ongoing|running|underway|working|processing|live|scheduled)\b/ },
-  { category: 'waiting', pattern: /\b(waiting|awaiting|pending|queued|sent|outstanding|open|new|not started|to do|todo)\b/ },
+  // "Await(ing) scheduled check" is waiting for a run, not an active one.
+  { category: 'active', pattern: /\b(in progress|active|ongoing|running|underway|working|processing|live|(?<!await(?:ing)? )scheduled|enabled)\b/ },
+  { category: 'waiting', pattern: /\b(waiting|awaiting|await|pending|queued|sent|outstanding|open|new|not started|to do|todo|unprocessed)\b/ },
 ];
 
 // Phrases that would otherwise trigger a false positive.

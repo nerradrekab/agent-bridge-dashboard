@@ -14,7 +14,10 @@ export const SHEET_TABS = [
   'Mission and profiles',
   'ChatGPT inventory',
   'Instinct inventory',
+  'Claude inventory',
   'Messages',
+  'Messages archive',
+  'Bridge config and history',
 ] as const;
 
 /** Known tabs plus future inventory tabs for agents added later. */
@@ -36,6 +39,11 @@ export interface SourceTimestamp {
   raw: string | null;
   /** ISO 8601 in UTC (e.g. 2026-11-02T22:30:00Z) */
   iso: string | null;
+  /**
+   * 'day' when the cell held a date without a time (iso is then local
+   * midnight in Europe/Dublin). Omitted means minute precision or better.
+   */
+  precision?: 'day';
 }
 
 /**
@@ -79,6 +87,8 @@ export interface BridgeMessage {
   status: string;
   writtenAt: SourceTimestamp;
   source: SourceRef;
+  /** True for rows from the Messages archive tab; their statuses are frozen history. */
+  archived?: boolean;
 }
 
 /** Delivery log row. */
@@ -106,6 +116,10 @@ export interface InventoryItem {
   status: string;
   schedule: string | null;
   nextAction: string | null;
+  /** "Evidence / source" column, when the inventory tab has one. */
+  evidence?: string | null;
+  /** "Verified / reviewed" column, when the inventory tab has one. */
+  reviewedAt?: SourceTimestamp;
   source: SourceRef;
 }
 

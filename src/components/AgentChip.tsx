@@ -5,6 +5,7 @@ import { mentionsJosh } from '../domain/derive';
 const COLOR_BY_ALIAS: Array<[RegExp, string]> = [
   [/\b(chatgpt|gpt)\b/i, 'var(--ag-chatgpt)'],
   [/\binstinct\b/i, 'var(--ag-instinct)'],
+  [/\bclaude\b/i, 'var(--ag-claude)'],
 ];
 
 export function agentColor(name: string): string {

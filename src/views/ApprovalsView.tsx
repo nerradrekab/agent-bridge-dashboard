@@ -34,7 +34,8 @@ export function ApprovalsView() {
               const known: KnownIds = { tasks: ts.map((t) => t.id), messages: ms.map((m) => m.id) };
               const joshTasks = ts.filter(needsJosh);
               const toJosh = ms
-                .filter((m) => mentionsJosh(m.to) && isOpen(classifyStatus(m.status).category))
+                // Archived statuses are frozen history, so they never count as open.
+                .filter((m) => !m.archived && mentionsJosh(m.to) && isOpen(classifyStatus(m.status).category))
                 .sort((a, b) => Date.parse(b.writtenAt.iso ?? '0') - Date.parse(a.writtenAt.iso ?? '0'));
               return (
                 <div className="grid gap-4 lg:grid-cols-2">

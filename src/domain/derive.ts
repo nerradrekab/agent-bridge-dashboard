@@ -160,7 +160,7 @@ export function agentActivity(
     (d) => tsMillis(d.processingCompletedAt),
   );
   const written = latest(
-    messages.filter((m) => mentionsAgent(m.from, agent)),
+    messages.filter((m) => !m.archived && mentionsAgent(m.from, agent)),
     (m) => tsMillis(m.writtenAt),
   );
   const owned = tasks.filter((t) => mentionsAgent(t.owner, agent));

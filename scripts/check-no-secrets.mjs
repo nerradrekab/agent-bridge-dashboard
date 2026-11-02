@@ -78,7 +78,9 @@ if (args.includes('--staged')) {
 const problems = [];
 for (const f of files) {
   if (SKIP_FILES.test(f) || f === SELF) continue;
-  if (/(^|\/)\.env($|\.)/.test(f) && !f.endsWith('.env.example')) problems.push(`${f}: .env files must not be committed`);
+  // .env.example and .env.private hold public VITE_* settings only; any other .env file may hold secrets.
+  if (/(^|\/)\.env($|\.)/.test(f) && !/\.env\.(example|private)$/.test(f)) problems.push(`${f}: .env files must not be committed`);
+  if (/(^|\/)\.dev\.vars/.test(f)) problems.push(`${f}: Wrangler secrets file must not be committed`);
   if (/\.(csv|xlsx)$/i.test(f)) problems.push(`${f}: spreadsheet exports must not be committed`);
   let text;
   try {
