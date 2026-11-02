@@ -1,0 +1,68 @@
+# Builds the static dashboard (mock data only) and deploys it to GitHub Pages.
+#
+# INACTIVE BY DESIGN: this workflow only runs when triggered by hand
+# (Actions → "Deploy to GitHub Pages" → Run workflow), and the deploy step
+# fails until Pages is enabled for the repository (Settings → Pages →
+# Source: GitHub Actions). Do not enable Pages or add a push trigger without
+# Josh's explicit approval. To deploy on every push to main once approved,
+# add:
+#
+#   push:
+#     branches: [main]
+name: Deploy to GitHub Pages
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 22
+          cache: npm
+
+      - run: npm ci
+
+      # Typecheck + tests + build.
+      - run: npm run check
+
+      - name: Build for project Pages
+        run: npm run build
+        env:
+          # Project Pages serve from /<repo>/. Use "/" for a custom domain.
+          VITE_BASE_PATH: /${{ github.event.repository.name }}/
+          # Public builds always use fictional data. Never point a public
+          # bundle at the live API without an access-controlled proxy.
+          VITE_DATA_SOURCE: mock
+
+      - name: Scan build output for secrets and Sheet references
+        run: npm run scan:dist
+
+      - uses: actions/configure-pages@v6
+
+      - uses: actions/upload-pages-artifact@v5
+        with:
+          path: dist
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v5
